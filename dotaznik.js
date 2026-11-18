@@ -1,7 +1,6 @@
 /* Investors Klub nad 5M — Private Investor Profile (dotazník pro členy).
    Zadání: „Investiční profily obou investorských klubů“, varianta 02 ALVEDOR (od 5 mil. Kč).
-   Pravidla: jedna odpověď (01–04, 06–11), max. dvě (05), více odpovědí (12–15);
-   „Zatím bez zkušeností“ (12) a „Bez preference“ (14, 15) vylučují ostatní volby.
+   Pravidla: jedna odpověď (01–03, 06–08, 10–11), 1–3 odpovědi (04, 05, 09), libovolně mnoho (12–15).
    Odpovědi se zatím ukládají jen v prohlížeči (napojení na CRM je samostatný krok). */
 (() => {
   'use strict';
@@ -76,7 +75,7 @@
       <p class="q-text">Abychom vám mohli představovat relevantní investiční příležitosti v kontextu vašich osobních preferencí, potřebujeme nejprve porozumět vašim investičním cílům, časovému horizontu, zkušenostem a očekáváním.</p>
       <p class="q-text">Váš investiční profil tvoří základ našeho individuálního přístupu. Pomáhá nám zaměřit pozornost na příležitosti, jejich parametry a projektové informace, které jsou pro vás skutečně podstatné.</p>
       <p class="q-motto">Your Capital. Your Perspective. Our Individual Approach.</p>
-      <p class="q-small">Poskytnuté informace budou sloužit k individuální investorské komunikaci a své preference budete moci kdykoliv aktualizovat.</p>
+      <p class="q-small">Vyplnění probíhá jednoduše, výběrem odpovědí. Své preference můžete v budoucnu kdykoli aktualizovat.</p>
       <div class="q-progress q-sticky"><span class="q-count"></span><span class="q-bar"><span></span></span></div>
       <form class="q-form" novalidate>
         ${allQuestions.map(questionHtml).join('')}
@@ -109,7 +108,7 @@
     const boxes = Array.from(fs.querySelectorAll('input'));
     if (q.type === 'max' && input.checked && boxes.filter((b) => b.checked).length > q.max) {
       input.checked = false;
-      fs.querySelector('.q-error').textContent = `Vyberte maximálně ${q.max === 2 ? 'dvě' : q.max} možnosti.`;
+      fs.querySelector('.q-error').textContent = `Vyberte maximálně ${({ 2: 'dvě', 3: 'tři' })[q.max] || q.max} možnosti.`;
       return;
     }
     if (q.exclusive && input.checked) {

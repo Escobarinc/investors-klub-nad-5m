@@ -17,9 +17,9 @@ window.IC_PROFILE = (() => {
       title: 'Your Investment Goals',
       intro: 'Zajímá nás, co od investování očekáváte a které parametry jsou pro vás důležité.',
       questions: [
-        { id: 'q04', text: 'Jaký je hlavní účel vašich investic?', type: 'single',
+        { id: 'q04', text: 'Jaký je hlavní účel vašich investic?', type: 'max', max: 3, hint: 'Vyberte 1–3 možnosti.',
           options: ['Pravidelný příjem', 'Růst kapitálu', 'Ochrana kupní síly', 'Diverzifikace', 'Financování budoucích potřeb'] },
-        { id: 'q05', text: 'Co je pro vás při výběru investice nejdůležitější?', type: 'max', max: 2, hint: 'Vyberte maximálně dvě priority.',
+        { id: 'q05', text: 'Co je pro vás při výběru investice nejdůležitější?', type: 'max', max: 3, hint: 'Vyberte 1–3 priority.',
           options: ['Výnos', 'Riziko ztráty', 'Zajištění', 'Likvidita', 'Délka investice', 'Emitent', 'Konkrétní projekt'] },
         { id: 'q06', text: 'Jaký způsob získávání výnosu preferujete?', type: 'single',
           options: ['Pravidelná výplata', 'Výplata při splatnosti', 'Reinvestování', 'Bez preference'] },
@@ -33,7 +33,7 @@ window.IC_PROFILE = (() => {
       questions: [
         { id: 'q08', text: 'Jakou dobu investice preferujete?', type: 'single',
           options: ['Do 12 měsíců', '1–2 roky', '2–3 roky', '3–5 let', 'Více než 5 let'] },
-        { id: 'q09', text: 'V jaké fázi realizace projektu preferujete investovat?', type: 'single',
+        { id: 'q09', text: 'V jaké fázi realizace projektu preferujete investovat?', type: 'max', max: 3, hint: 'Vyberte 1–3 možnosti.',
           options: ['V přípravné fázi projektu', 'Po získání potřebných povolení', 'Během realizace projektu', 'Ve fázi dokončování nebo po dokončení', 'Fáze projektu pro mě není rozhodující'] },
         { id: 'q10', text: 'Jakou míru investičního rizika jste ochoten podstoupit?', type: 'single',
           options: ['Velmi nízkou', 'Nízkou', 'Střední', 'Vyšší', 'Vysokou'] },
@@ -45,13 +45,13 @@ window.IC_PROFILE = (() => {
       title: 'Your Investment Preferences',
       intro: 'Pomozte nám lépe pochopit, jaké investiční nástroje a projekty vás zajímají.',
       questions: [
-        { id: 'q12', text: 'S jakými investičními nástroji máte zkušenosti?', type: 'multi', hint: 'Lze vybrat více možností.', exclusive: 'Zatím bez zkušeností',
+        { id: 'q12', text: 'S jakými investičními nástroji máte zkušenosti?', type: 'multi', hint: 'Lze vybrat více možností.',
           options: ['Dluhopisy', 'Fondy', 'FKI', 'Akcie', 'ETF', 'Nemovitosti', 'Podnikatelské podíly', 'Úvěrové investice', 'Zatím bez zkušeností'] },
         { id: 'q13', text: 'O jaké formy investování máte zájem?', type: 'multi', hint: 'Lze vybrat více možností.',
           options: ['Korporátní dluhopisy', 'Zajištěné dluhopisy', 'Investiční fondy', 'FKI', 'Úvěrové financování', 'Přímé projektové investice', 'Majetkové podíly'] },
-        { id: 'q14', text: 'Jaké typy projektů vás zajímají?', type: 'multi', hint: 'Lze vybrat více možností.', exclusive: 'Bez preference',
+        { id: 'q14', text: 'Jaké typy projektů vás zajímají?', type: 'multi', hint: 'Lze vybrat více možností.',
           options: ['Rezidenční development', 'Komerční nemovitosti', 'Průmysl', 'Energetika', 'Infrastruktura', 'Bez preference'] },
-        { id: 'q15', text: 'Jaké formy zajištění preferujete?', type: 'multi', hint: 'Lze vybrat více možností.', exclusive: 'Bez preference',
+        { id: 'q15', text: 'Jaké formy zajištění preferujete?', type: 'multi', hint: 'Lze vybrat více možností.',
           options: ['Nemovitostní zástava', 'Zástava obchodního podílu', 'Ručení další osoby', 'Kombinace', 'Bez preference'] }
       ]
     }
