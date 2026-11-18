@@ -138,3 +138,16 @@ a.q-prev { display: inline-flex; align-items: center; text-decoration: none; }
 .legal th { color: var(--accent); font-size: 12px; letter-spacing: 1.2px; text-transform: uppercase; }
 .legal .legal-eff { margin-top: 28px; color: #a99f95; font-size: 13px; }
 @media (max-width: 540px) { .legal p, .legal li { font-size: 15px; } .legal h2 { font-size: 20px; } }
+
+/* ===== Stránka Kontakt ===== */
+.contact-card { max-width: 680px; }
+.contact-card .q-title { margin-bottom: 0; }
+.contact-card .form-grid { margin-top: 26px; gap: 18px; }
+.contact-card .field label { font-size: 13px; color: #d9d3cd; }
+.contact-card .field input, .contact-card .field textarea, .contact-card .field select { min-height: 52px; border-color: rgba(215,182,116,.28); background-color: rgba(255,255,255,.04); font-size: 16px; }
+.contact-card .field textarea { min-height: 130px; }
+.contact-card .phone-row .prefix { min-height: 52px; }
+.contact-card .field small { color: #e5ad9e; font-size: 12.5px; }
+.contact-card .field-pref .field select { appearance: none; -webkit-appearance: none; background: rgba(255,255,255,.04) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23d7b674' stroke-width='1.8' stroke-linecap='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") right 12px center / 16px no-repeat; padding-right: 36px; }
+.contact-submit { width: 100%; justify-content: center; margin: 6px 0 0; }
+@media (max-width: 540px) { .contact-card .field-row { grid-template-columns: 1fr; } }

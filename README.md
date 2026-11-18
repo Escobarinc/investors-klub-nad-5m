@@ -9,8 +9,8 @@ Náhled: `.claude/launch.json` → `investors-klub-nad-5m` (port 8786).
 - Tlačítko „Požádat o privátní přístup“ otevře kartu s formulářem (jméno, telefon, e-mail, investiční kapitál, souhlas).
 - Po odeslání se volá `clarixTrack.lead({...})` z měřicího kódu CRM `/api/t.js`.
   Formulář se v CRM jmenuje „Investors Klub nad 5M – Žádost o privátní přístup“, investiční kapitál je ve zprávě leadu.
-- **Co je potřeba udělat:** v CRM (Nastavení → Weby a měření) přidat web a jeho klíč vložit do `script.js`:
-  `const CRM = { origin: 'https://clarix-crm.onrender.com', key: 'SEM_KLÍČ' };`
+- **Co je potřeba udělat:** v CRM (Nastavení → Weby a měření) přidat web a jeho klíč vložit
+  v souboru `crm.js`: `const CRM = { origin: 'https://clarix-crm.onrender.com', key: 'SEM_KLÍČ' };`
   CRM drží u webu jednu doménu, proto se to dělá až s finální adresou webu.
 - Bez klíče formulář funguje jako ukázka a nic neodesílá (v potvrzení je to napsané).
 - Měřicí kód se načítá až při odeslání žádosti, ne při běžné návštěvě.
@@ -22,7 +22,7 @@ Po přihlášení zmizí úvod a zobrazí se menu (O klubu, Vybrané projekty, I
 
 - `dotaznik.html` – Private Investor Profile (varianta ALVEDOR, 15 otázek na jedné stránce), odpovědi se ukládají jen v prohlížeči.
 - `profil.html` – přehled odpovědí.
-- Kontakt – formulář s preferovaným časem spojení, odesílá se jako lead do CRM (`formular: 'Kontakt'`).
+- `kontakt.html` – samostatná stránka s formulářem a preferovaným časem spojení, odesílá se jako lead do CRM (`formular: 'Kontakt'`).
 
 Skutečné účty schválených členů a uložení profilu do CRM bude potřeba napojit na server.
 

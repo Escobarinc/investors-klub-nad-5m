@@ -1,11 +1,8 @@
 /* Investors Klub nad 5M — interakce webu.
- * Žádost o přístup se posílá jako lead do CRM (CLARIX) přes měřicí kód /api/t.js.
- * Klíč webu (site key) se získá v CRM: Nastavení → Weby a měření → Přidat web.
- * Dokud je klíč prázdný, formulář funguje jen jako ukázka a nic se neodesílá. */
+ * Žádost o přístup se posílá jako lead do CRM přes crm.js (tam je i klíč webu). */
 (() => {
   'use strict';
 
-  const CRM = { origin: 'https://clarix-crm.onrender.com', key: '' };
   const FORM_NAME = 'Investors Klub nad 5M – Žádost o privátní přístup';
 
   /* Přihlášení je zatím jen ukázkové (statický web nemá server pro účty):
@@ -189,25 +186,7 @@
     return !firstBad;
   }
 
-  // Měřicí kód CRM se načte až při odeslání žádosti (ne při běžné návštěvě).
-  function loadCrm() {
-    if (!CRM.key) return Promise.resolve(null);
-    if (window.clarixTrack) return Promise.resolve(window.clarixTrack);
-    return new Promise((resolve, reject) => {
-      const t = document.createElement('script');
-      t.src = `${CRM.origin}/api/t.js?k=${encodeURIComponent(CRM.key)}`;
-      t.onload = () => (window.clarixTrack ? resolve(window.clarixTrack) : reject(new Error('CRM nedostupné')));
-      t.onerror = () => reject(new Error('CRM nedostupné'));
-      document.head.appendChild(t);
-    });
-  }
-  async function sendLead(data) {
-    const crm = await loadCrm();
-    if (!crm) return { demo: true };
-    const r = await crm.lead(data);
-    if (r && r.error) throw new Error(r.error);
-    return r;
-  }
+  const sendLead = (data) => window.IK_CRM.sendLead(data);
 
   async function submitMembership(form) {
     const btn = form.querySelector('.dialog-submit');
@@ -341,7 +320,8 @@
 
   try { if (localStorage.getItem(ACCESS_KEY) === '1') setLoggedIn(true, true); } catch (e) {}
   // Odkazy z ostatních stránek (patička, právní stránky): index.html#kontakt, #projekty, #zadost, #login
-  const HASH = { '#kontakt': 'contact', '#projekty': 'projects', '#zadost': 'membership', '#login': 'login' };
+  if (location.hash === '#kontakt') location.replace('kontakt.html');
+  const HASH = { '#projekty': 'projects', '#zadost': 'membership', '#login': 'login' };
   if (HASH[location.hash]) setTimeout(() => openDialog(HASH[location.hash]), 300);
 
   // Animace: bloky klubu se objeví při scrollování (s pojistkou při scrollu / po přihlášení)
