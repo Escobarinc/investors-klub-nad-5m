@@ -56,7 +56,7 @@
       <p>Projekty Vám představíme osobně v návaznosti na vaše preference uvedené v investičním profilu.</p>
       <p>Automatickou provázanost připravujeme v nejbližší době – poté se Vám zde automaticky budou zobrazovat nové příležitosti spolu s notifikací na Váš e-mail.</p>
       <p>Na řešení intenzivně pracujeme – děkujeme za pochopení.</p>
-      <a class="cta dialog-submit dialog-action" href="profil.html"><span>Můj investiční profil</span>${icon.arrow}</a>`,
+      <button type="button" class="cta dialog-submit dialog-action" data-scroll="top"><span>Zpět na O klubu</span>${icon.arrow}</button>`,
     contact: () => {
       // Pracovní dny (po–pá) na 3 týdny dopředu, časy po půlhodinách 9:00–19:00
       const days = [];
@@ -253,7 +253,7 @@
 
   document.addEventListener('click', (event) => {
     const scrollBtn = event.target.closest('[data-scroll]');
-    if (scrollBtn) { event.preventDefault(); closeMenu(); const t = document.getElementById(scrollBtn.dataset.scroll); if (t && !t.hidden) t.scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
+    if (scrollBtn) { event.preventDefault(); closeMenu(); closeDialog(); window.scrollTo({ top: 0, behavior: 'smooth' }); return; }
     const trigger = event.target.closest('[data-open]');
     if (trigger) { event.preventDefault(); openDialog(trigger.dataset.open); return; }
     if (event.target.closest('[data-dismiss]')) { closeDialog(); return; }
