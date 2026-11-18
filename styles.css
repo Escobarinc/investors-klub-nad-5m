@@ -593,3 +593,18 @@ body.access-locked .site-wrap .f-bottom { border-top: 0; }
 body.q-page footer.site-footer { margin-top: 24px; }
 @media (max-width: 540px) { .f-bottom { font-size: 14px; } .f-legal a, .f-legal button { font-size: 14px; } .f-legal { gap: 10px 20px; } }
 body.q-page { display: flex; flex-direction: column; } body.q-page > .q-main { flex: 1; } body.q-page > footer.site-footer { margin-top: 0; }
+
+/* Spodní lišta patičky zmenšená na 65 % */
+.f-bottom { gap: 6px; padding-top: 14px; padding-bottom: 18px; font-size: 10px; }
+.f-legal { gap: 6px 21px; margin-top: 2px; }
+.f-legal a, .f-legal button { font-size: 10px; }
+@media (max-width: 540px) { .f-bottom, .f-legal a, .f-legal button { font-size: 10px; } .f-legal { gap: 6px 14px; } }
+body.q-page > .q-header { width: 100%; }
+
+/* Pás výhod přes spodek fotky, krytí 85 % (fotka lehce prosvítá) */
+@media (min-width: 821px) {
+  body:not(.is-member) .hero-shell { height: 100vh; height: 100svh; max-height: calc(930px + var(--features-height)); }
+  body:not(.is-member) section#hero { padding-bottom: var(--features-height); }
+  section#features { position: relative; z-index: 2; margin-top: calc(-1 * var(--features-height)); background: linear-gradient(90deg, rgba(20,17,17,.85), rgba(33,27,26,.85) 68%, rgba(26,21,19,.85)); box-shadow: inset 0 1px 0 rgba(215,182,116,.18); backdrop-filter: none; }
+  .dialog-layer.is-inline { top: calc(var(--header-height) + (100% - var(--header-height) - var(--features-height)) / 2); }
+}
