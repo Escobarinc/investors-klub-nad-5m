@@ -87,8 +87,6 @@
             <div class="field"><label for="contact-time">Čas</label><select id="contact-time" name="time"><option value="">Kdykoli</option>${times.map((t) => `<option value="${t}">${t}</option>`).join('')}</select></div>
           </div>
         </fieldset>
-        <label class="consent"><input id="contact-consent" type="checkbox" required><span>Souhlasím se zpracováním osobních údajů za účelem vyřízení dotazu.</span></label>
-        <small data-error-for="contact-consent" aria-live="polite" class="consent-error"></small>
         <input class="hp" type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true">
         <button type="submit" class="cta dialog-submit"><span>Odeslat zprávu</span>${icon.arrow}</button>
         <p class="login-status" id="contact-status" role="status" aria-live="polite"></p>
@@ -236,7 +234,7 @@
     btn.disabled = true; st.textContent = 'Odesílám…';
     try {
       const res = await sendLead({
-        name: v('name'), phone: v('phone'), email: v('email'), consent: true,
+        name: v('name'), phone: v('phone'), email: v('email'),
         formular: 'Kontakt',
         message: v('message') + '\n\nPreferovaný čas spojení: ' + pref
       });
@@ -304,6 +302,7 @@
   window.addEventListener('resize', () => { if (window.innerWidth > 820) closeMenu(); });
 
   try { if (localStorage.getItem(ACCESS_KEY) === '1') setLoggedIn(true, true); } catch (e) {}
+  if (location.hash === '#kontakt') setTimeout(() => openDialog('contact'), 300);
 
   // Animace: bloky klubu se objeví při scrollování (s pojistkou při scrollu / po přihlášení)
   if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
