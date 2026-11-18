@@ -46,6 +46,29 @@
   const field = (id, name, type, ph, ico, extra = '') =>
     `<div class="field field-ico">${icon[ico]}<input id="${id}" name="${name}" type="${type}" placeholder="${ph}" aria-label="${ph}" required ${extra}><small data-error-for="${id}" aria-live="polite"></small></div>`;
 
+  // Telefon: předvolba CZ/SK + přesně 9 číslic; e-mail: jméno@doména.koncovka
+  const PREFIX = '<select class="prefix" name="prefix" aria-label="Předvolba"><option value="+420">CZ +420</option><option value="+421">SK +421</option></select>';
+  const phoneField = (id) =>
+    `<div class="field field-ico field-phone">${icon.phone}${PREFIX}<input id="${id}" name="phone" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="123 456 789" aria-label="Telefonní číslo (9 číslic)" maxlength="11" required><small data-error-for="${id}" aria-live="polite"></small></div>`;
+  const phoneDigits = (el) => {
+    let d = el.value.replace(/\D/g, '');
+    const pre = (el.form && el.form.elements.prefix ? el.form.elements.prefix.value : '+420').slice(1);
+    if (d.length === 12 && (d.startsWith('420') || d.startsWith('421'))) d = d.slice(3);
+    if (d.length === 14 && d.startsWith('00')) d = d.slice(5);
+    return { d, pre };
+  };
+  const fmt9 = (d) => d.replace(/^(\d{3})(\d{3})(\d{3})$/, '$1 $2 $3');
+  const EMAIL_RE = /^(?!\.)(?!.*\.\.)[A-Za-z0-9._%+-]+(?<!\.)@(?:[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?\.)+[A-Za-z]{2,}$/;
+  function emailMsg(v) {
+    if (!v.includes('@')) return 'E-mail musí obsahovat zavináč (@).';
+    const [local, domain = ''] = v.split('@');
+    if (v.split('@').length > 2) return 'E-mail může obsahovat jen jeden zavináč.';
+    if (!local) return 'Doplňte část e-mailu před zavináčem.';
+    if (!domain.includes('.')) return 'Doplňte doménu s koncovkou, např. jmeno@email.cz.';
+    if (!/\.[A-Za-z]{2,}$/.test(domain)) return 'Doplňte koncovku domény, např. .cz nebo .com.';
+    return EMAIL_RE.test(v) ? '' : 'Zadejte e-mail ve tvaru jmeno@email.cz (bez mezer a dvojitých teček).';
+  }
+
   const dialogs = {
     about: `
       <h2 id="dialog-title">O Investors Klub</h2>
@@ -76,7 +99,7 @@
       <form id="contact-form" class="form-grid" novalidate>
         <div class="field"><label for="contact-name">Jméno a příjmení *</label><input id="contact-name" name="name" type="text" autocomplete="name" maxlength="120" required><small data-error-for="contact-name" aria-live="polite"></small></div>
         <div class="field-row">
-          <div class="field"><label for="contact-phone">Telefon *</label><input id="contact-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="30" required><small data-error-for="contact-phone" aria-live="polite"></small></div>
+          <div class="field"><label for="contact-phone">Telefon *</label><div class="phone-row">${PREFIX}<input id="contact-phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="123 456 789" maxlength="11" required></div><small data-error-for="contact-phone" aria-live="polite"></small></div>
           <div class="field"><label for="contact-email">E-mail *</label><input id="contact-email" name="email" type="email" autocomplete="email" maxlength="254" required><small data-error-for="contact-email" aria-live="polite"></small></div>
         </div>
         <div class="field"><label for="contact-message">Zpráva *</label><textarea id="contact-message" name="message" maxlength="2000" required></textarea><small data-error-for="contact-message" aria-live="polite"></small></div>
@@ -96,9 +119,9 @@
       <h2 id="dialog-title">Žádost o přístup</h2>
       <form id="membership-form" class="form-grid" novalidate>
         ${field('member-name', 'name', 'text', 'Jméno a příjmení', 'person', 'autocomplete="name" maxlength="100"')}
-        ${field('member-phone', 'phone', 'tel', 'Telefonní číslo', 'phone', 'autocomplete="tel" maxlength="40"')}
+        ${phoneField('member-phone')}
         ${field('member-email', 'email', 'email', 'E-mail', 'mail', 'autocomplete="email" maxlength="200"')}
-        <div class="field field-ico">${icon.coins}<select id="member-volume" name="volume" required aria-label="Investiční kapitál"><option value="">Investiční kapitál</option><option>5–10 mil. Kč</option><option>10–25 mil. Kč</option><option>25–50 mil. Kč</option><option>Více než 50 mil. Kč</option></select>${icon.chev}<small data-error-for="member-volume" aria-live="polite"></small></div>
+        <div class="field field-ico">${icon.coins}<select id="member-volume" name="volume" required aria-label="Orientační výše plánované investice"><option value="">Orientační výše plánované investice</option><option>5–10 mil. Kč</option><option>10–25 mil. Kč</option><option>25–50 mil. Kč</option><option>Více než 50 mil. Kč</option></select>${icon.chev}<small data-error-for="member-volume" aria-live="polite"></small></div>
         <label class="consent"><input type="checkbox" id="member-consent" name="consent" required><span>Souhlasím se zpracováním osobních údajů za účelem vyřízení žádosti.</span></label>
         <small class="consent-error" data-error-for="member-consent" aria-live="polite"></small>
         <button type="submit" class="cta dialog-submit"><span>Odeslat žádost</span>${icon.arrow}</button>
@@ -153,8 +176,8 @@
       let msg = '';
       if (el.type === 'checkbox') { if (!el.checked) msg = 'Pro odeslání je potřeba souhlas.'; }
       else if (!v) msg = el.tagName === 'SELECT' ? 'Vyberte prosím možnost.' : 'Vyplňte prosím toto pole.';
-      else if (el.type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) msg = 'Zadejte platný e-mail.';
-      else if (el.type === 'tel' && v.replace(/\D/g, '').length < 9) msg = 'Zadejte platné telefonní číslo.';
+      else if (el.type === 'email' && form.id !== 'login-form') msg = emailMsg(v);
+      else if (el.type === 'tel') { const { d } = phoneDigits(el); msg = d.length === 9 ? '' : `Telefonní číslo musí mít 9 číslic (zadáno ${d.length}).`; if (!msg) el.value = fmt9(d); }
       else if (el.name === 'name' && v.split(/\s+/).length < 2) msg = 'Zadejte jméno i příjmení.';
       else if (el.tagName === 'TEXTAREA' && v.length < 3) msg = 'Napište nám prosím zprávu.';
       el.setAttribute('aria-invalid', msg ? 'true' : 'false');
@@ -195,10 +218,10 @@
       const res = await sendLead({
         name: v('name'),
         email: v('email'),
-        phone: v('phone'),
+        phone: `${form.elements.prefix.value} ${fmt9(phoneDigits(form.elements.phone).d)}`,
         consent: true,
         formular: FORM_NAME,
-        message: `Investiční kapitál: ${v('volume')}`
+        message: `Orientační výše plánované investice: ${v('volume')}`
       });
       content.innerHTML = `<div class="success-icon">${icon.check}</div>
         <h2 id="dialog-title">Děkujeme za žádost</h2>
@@ -234,7 +257,7 @@
     btn.disabled = true; st.textContent = 'Odesílám…';
     try {
       const res = await sendLead({
-        name: v('name'), phone: v('phone'), email: v('email'),
+        name: v('name'), phone: `${form.elements.prefix.value} ${fmt9(phoneDigits(form.elements.phone).d)}`, email: v('email'),
         formular: 'Kontakt',
         message: v('message') + '\n\nPreferovaný čas spojení: ' + pref
       });
@@ -276,6 +299,21 @@
     const le = content.querySelector('#login-error');
     if (le) le.hidden = true;
   });
+  content.addEventListener('input', (event) => {
+    const el = event.target;
+    if (el.type !== 'tel') return;
+    const { d } = phoneDigits(el);
+    el.value = d.slice(0, 9).replace(/(\d{3})(?=\d)/g, '$1 ');
+  });
+  content.addEventListener('blur', (event) => {
+    const el = event.target;
+    if (!el.matches || !el.matches('input[type=email], input[type=tel]') || !el.value.trim()) return;
+    const form = el.form; if (!form || form.id === 'login-form') return;
+    const v = el.value.trim();
+    const msg = el.type === 'email' ? emailMsg(v) : (phoneDigits(el).d.length === 9 ? '' : `Telefonní číslo musí mít 9 číslic (zadáno ${phoneDigits(el).d.length}).`);
+    el.setAttribute('aria-invalid', msg ? 'true' : 'false');
+    const err = form.querySelector(`[data-error-for="${el.id}"]`); if (err) err.textContent = msg;
+  }, true);
   content.addEventListener('change', (event) => {
     if (event.target.matches('select')) event.target.classList.toggle('has-value', !!event.target.value);
   });
