@@ -76,7 +76,7 @@
       <p>Projekty Vám představíme osobně v návaznosti na vaše preference uvedené v investičním profilu.</p>
       <p>Automatickou provázanost připravujeme v nejbližší době – poté se Vám zde automaticky budou zobrazovat nové příležitosti spolu s notifikací na Váš e-mail.</p>
       <p>Na řešení intenzivně pracujeme – děkujeme za pochopení.</p>
-      <button type="button" class="cta dialog-submit dialog-action" data-scroll="top"><span>Zpět na O klubu</span>${icon.arrow}</button>`,
+      <button type="button" class="cta dialog-submit dialog-action" data-scroll="top"><span>Zpět</span>${icon.arrow}</button>`,
     contact: () => {
       // Pracovní dny (po–pá) na 3 týdny dopředu, časy po půlhodinách 9:00–19:00
       const days = [];
