@@ -8,9 +8,8 @@
   const CRM = { origin: 'https://clarix-crm.onrender.com', key: '' };
   const FORM_NAME = 'Investors Klub nad 5M – Žádost o privátní přístup';
 
-  /* Přihlášení je zatím jen ukázkové (statický web nemá server pro účty).
-   * Ukázkové údaje jsou v README.md. Skutečné přihlášení se napojí později. */
-  const DEMO_LOGIN = { email: 'demo@investorsklub.cz', password: 'klub5m' };
+  /* Přihlášení je zatím jen ukázkové (statický web nemá server pro účty):
+   * přijme jakékoli vyplněné údaje. Skutečné účty členů se napojí později. */
   const ACCESS_KEY = 'ik5m-access-granted';
 
   const layer = document.getElementById('dialog-layer');
@@ -23,11 +22,16 @@
   const INLINE = ['membership', 'login'];
   let previousFocus = null;
 
-  function setLoggedIn(on) {
+  // Člen: odemkne se menu a sekce #klub, úvod (fotka, texty, pás výhod) se skryje.
+  const members = document.getElementById('klub');
+  function setLoggedIn(on, quiet) {
     document.body.classList.toggle('access-locked', !on);
+    document.body.classList.toggle('is-member', on);
+    members.hidden = !on;
     try { on ? localStorage.setItem(ACCESS_KEY, '1') : localStorage.removeItem(ACCESS_KEY); } catch (e) {}
+    if (!quiet) window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (on && window.__ikRevealCheck) setTimeout(window.__ikRevealCheck, 50);
   }
-  try { if (localStorage.getItem(ACCESS_KEY) === '1') document.body.classList.remove('access-locked'); } catch (e) {}
 
   const icon = {
     person: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4.5 20.5c1-4 4-6 7.5-6s6.5 2 7.5 6"/></svg>',
@@ -49,13 +53,47 @@
       <ul class="facts"><li>Privátní investiční přístup</li><li>Individuální představení projektů</li><li>Diskrétnost a profesionalita</li></ul>`,
     projects: `
       <h2 id="dialog-title">Vybrané projekty</h2>
-      <p>Konkrétní projekty, jejich podmínky a detailní informace vám představíme individuálně.</p>`,
-    membershipInfo: `
-      <h2 id="dialog-title">Členství</h2>
-      <p>Členství je určeno investorům s investičním kapitálem od 5 mil. Kč. Každou žádost individuálně posuzujeme.</p>`,
-    contact: `
+      <p>Projekty Vám představíme osobně v návaznosti na vaše preference uvedené v investičním profilu.</p>
+      <p>Automatickou provázanost připravujeme v nejbližší době – poté se Vám zde automaticky budou zobrazovat nové příležitosti spolu s notifikací na Váš e-mail.</p>
+      <p>Na řešení intenzivně pracujeme – děkujeme za pochopení.</p>
+      <a class="cta dialog-submit dialog-action" href="profil.html"><span>Můj investiční profil</span>${icon.arrow}</a>`,
+    contact: () => {
+      // Pracovní dny (po–pá) na 3 týdny dopředu, časy po půlhodinách 9:00–19:00
+      const days = [];
+      const d = new Date(); d.setHours(12, 0, 0, 0);
+      while (days.length < 15) {
+        d.setDate(d.getDate() + 1);
+        const wd = d.getDay();
+        if (wd === 0 || wd === 6) continue;
+        const label = d.toLocaleDateString('cs-CZ', { weekday: 'long', day: 'numeric', month: 'numeric' });
+        days.push(`<option value="${label}">${label.charAt(0).toUpperCase() + label.slice(1)}</option>`);
+      }
+      const times = [];
+      for (let m = 9 * 60; m <= 19 * 60; m += 30) times.push(`${Math.floor(m / 60)}:${m % 60 ? '30' : '00'}`);
+      return `
       <h2 id="dialog-title">Kontakt</h2>
-      <p>Kontaktní údaje doplníme.</p>`,
+      <p class="dialog-intro">Napište nám zprávu a zvolte, kdy se vám máme ozvat.</p>
+      <form id="contact-form" class="form-grid" novalidate>
+        <div class="field"><label for="contact-name">Jméno a příjmení *</label><input id="contact-name" name="name" type="text" autocomplete="name" maxlength="120" required><small data-error-for="contact-name" aria-live="polite"></small></div>
+        <div class="field-row">
+          <div class="field"><label for="contact-phone">Telefon *</label><input id="contact-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="30" required><small data-error-for="contact-phone" aria-live="polite"></small></div>
+          <div class="field"><label for="contact-email">E-mail *</label><input id="contact-email" name="email" type="email" autocomplete="email" maxlength="254" required><small data-error-for="contact-email" aria-live="polite"></small></div>
+        </div>
+        <div class="field"><label for="contact-message">Zpráva *</label><textarea id="contact-message" name="message" maxlength="2000" required></textarea><small data-error-for="contact-message" aria-live="polite"></small></div>
+        <fieldset class="field-pref">
+          <legend>Preferovaný čas spojení</legend>
+          <div class="field-row">
+            <div class="field"><label for="contact-day">Den (po–pá)</label><select id="contact-day" name="day"><option value="">Kdykoli</option>${days.join('')}</select></div>
+            <div class="field"><label for="contact-time">Čas</label><select id="contact-time" name="time"><option value="">Kdykoli</option>${times.map((t) => `<option value="${t}">${t}</option>`).join('')}</select></div>
+          </div>
+        </fieldset>
+        <label class="consent"><input id="contact-consent" type="checkbox" required><span>Souhlasím se zpracováním osobních údajů za účelem vyřízení dotazu.</span></label>
+        <small data-error-for="contact-consent" aria-live="polite" class="consent-error"></small>
+        <input class="hp" type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button type="submit" class="cta dialog-submit"><span>Odeslat zprávu</span>${icon.arrow}</button>
+        <p class="login-status" id="contact-status" role="status" aria-live="polite"></p>
+      </form>`;
+    },
     membership: `
       <h2 id="dialog-title">Žádost o přístup</h2>
       <form id="membership-form" class="form-grid" novalidate>
@@ -66,14 +104,14 @@
         <label class="consent"><input type="checkbox" id="member-consent" name="consent" required><span>Souhlasím se zpracováním osobních údajů za účelem vyřízení žádosti.</span></label>
         <small class="consent-error" data-error-for="member-consent" aria-live="polite"></small>
         <button type="submit" class="cta dialog-submit"><span>Odeslat žádost</span>${icon.arrow}</button>
-        <p class="fine-print">Každou žádost individuálně posuzujeme. Odeslání žádosti nezaručuje přijetí do klubu.</p>
+        <p class="fine-print">Spojíme se s Vámi telefonicky nejpozději do 2 pracovních dnů od odeslání formuláře. Děkujeme za Váš zájem připojit se k naší komunitě investorů.</p>
       </form>`,
     login: `
       <h2 id="dialog-title">Přihlášení členů</h2>
       <form id="login-form" class="form-grid" novalidate>
         ${field('login-email', 'email', 'email', 'E-mail', 'mail', 'autocomplete="username" maxlength="200"')}
         ${field('login-password', 'password', 'password', 'Heslo', 'lock', 'autocomplete="current-password" maxlength="200"')}
-        <p class="form-error" id="login-error" role="alert" hidden>Nesprávný e-mail nebo heslo.</p>
+        <p class="form-error" id="login-error" role="alert" hidden>Vyplňte e-mail a heslo.</p>
         <button type="submit" class="cta dialog-submit"><span>Přihlásit se</span>${icon.arrow}</button>
         <p class="fine-print">Přístup do členské sekce získáte po schválení vaší žádosti. <button type="button" class="link-btn" data-open="membership">Požádat o přístup</button></p>
       </form>`
@@ -88,12 +126,13 @@
     if (!Object.hasOwn(dialogs, type)) return;
     if (layer.hidden) previousFocus = document.activeElement;
     closeMenu();
-    content.innerHTML = dialogs[type];
+    content.innerHTML = typeof dialogs[type] === 'function' ? dialogs[type]() : dialogs[type];
     panel.dataset.kind = type;
     // Žádost a login se zobrazí jako karta přímo na fotce (v místě křesla), bez zamlžení pozadí.
     const inline = INLINE.includes(type) && window.innerWidth > 820;
     layer.classList.toggle('is-inline', inline);
     (inline ? heroShell : document.body).appendChild(layer);
+    if (inline && window.scrollY > 40) window.scrollTo({ top: 0, behavior: 'smooth' });
     layer.hidden = false;
     if (!inline) document.body.classList.add('modal-open');
     const first = content.querySelector('input,select');
@@ -119,6 +158,7 @@
       else if (el.type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) msg = 'Zadejte platný e-mail.';
       else if (el.type === 'tel' && v.replace(/\D/g, '').length < 9) msg = 'Zadejte platné telefonní číslo.';
       else if (el.name === 'name' && v.split(/\s+/).length < 2) msg = 'Zadejte jméno i příjmení.';
+      else if (el.tagName === 'TEXTAREA' && v.length < 3) msg = 'Napište nám prosím zprávu.';
       el.setAttribute('aria-invalid', msg ? 'true' : 'false');
       const err = form.querySelector(`[data-error-for="${el.id}"]`);
       if (err) err.textContent = msg;
@@ -179,14 +219,41 @@
   }
 
   function submitLogin(form) {
-    const ok = form.elements.email.value.trim().toLowerCase() === DEMO_LOGIN.email && form.elements.password.value === DEMO_LOGIN.password;
-    form.querySelector('#login-error').hidden = ok;
-    if (!ok) { form.elements.password.focus(); return; }
-    setLoggedIn(true);
+    const email = form.elements.email, pass = form.elements.password;
+    const ok = email.value.trim() && pass.value;
+    form.querySelector('#login-error').hidden = !!ok;
+    if (!ok) { (email.value.trim() ? pass : email).focus(); return; }
     closeDialog();
+    setLoggedIn(true);
+  }
+
+  async function submitContact(form) {
+    const v = (n) => (form.elements[n] ? form.elements[n].value.trim() : '');
+    const st = form.querySelector('#contact-status');
+    const btn = form.querySelector('.dialog-submit');
+    const day = v('day'), time = v('time');
+    const pref = day || time ? `${day || 'kterýkoli pracovní den'}${time ? ', ' + time : ''}` : 'kdykoli (po–pá 9:00–19:00)';
+    btn.disabled = true; st.textContent = 'Odesílám…';
+    try {
+      const res = await sendLead({
+        name: v('name'), phone: v('phone'), email: v('email'), consent: true,
+        formular: 'Kontakt',
+        message: v('message') + '\n\nPreferovaný čas spojení: ' + pref
+      });
+      content.innerHTML = `<div class="success-icon">${icon.check}</div>
+        <h2 id="dialog-title">Děkujeme za zprávu</h2>
+        <p>Ozveme se vám ${day || time ? 'v termínu: <strong>' + pref + '</strong>' : 'co nejdříve'}.</p>
+        ${res && res.demo ? '<p class="fine-print">Ukázkový režim: CRM zatím není připojené, zpráva nebyla odeslána.</p>' : ''}
+        <button type="button" class="cta dialog-submit" data-dismiss="true">Zavřít</button>`;
+      panel.focus();
+    } catch (err) {
+      btn.disabled = false; st.textContent = 'Zprávu se nepodařilo odeslat. Zkuste to prosím znovu za chvíli.';
+    }
   }
 
   document.addEventListener('click', (event) => {
+    const scrollBtn = event.target.closest('[data-scroll]');
+    if (scrollBtn) { event.preventDefault(); closeMenu(); const t = document.getElementById(scrollBtn.dataset.scroll); if (t && !t.hidden) t.scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
     const trigger = event.target.closest('[data-open]');
     if (trigger) { event.preventDefault(); openDialog(trigger.dataset.open); return; }
     if (event.target.closest('[data-dismiss]')) { closeDialog(); return; }
@@ -200,10 +267,11 @@
     if (form.id === 'login-form') { submitLogin(form); return; }
     if (!validate(form)) return;
     if (form.id === 'membership-form') submitMembership(form);
+    if (form.id === 'contact-form') submitContact(form);
   });
   content.addEventListener('input', (event) => {
     const el = event.target;
-    if (!el.matches('input,select')) return;
+    if (!el.matches('input,select,textarea')) return;
     el.setAttribute('aria-invalid', 'false');
     const fb = content.querySelector(`[data-error-for="${el.id}"]`);
     if (fb) fb.textContent = '';
@@ -234,4 +302,28 @@
     if (!menu.contains(event.target) && !menuToggle.contains(event.target)) closeMenu();
   });
   window.addEventListener('resize', () => { if (window.innerWidth > 820) closeMenu(); });
+
+  try { if (localStorage.getItem(ACCESS_KEY) === '1') setLoggedIn(true, true); } catch (e) {}
+
+  // Animace: bloky klubu se objeví při scrollování (s pojistkou při scrollu / po přihlášení)
+  if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const items = document.querySelectorAll('.m-closing, .m-intro, .m-pillar, .m-step');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((en) => { if (en.isIntersecting) { en.target.classList.add('is-visible'); io.unobserve(en.target); } });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+    items.forEach((el, i) => {
+      el.classList.add('reveal');
+      if (el.classList.contains('m-pillar')) el.style.transitionDelay = (i % 3) * 0.12 + 's';
+      io.observe(el);
+    });
+    const check = () => items.forEach((el) => {
+      if (el.classList.contains('is-visible')) return;
+      const r = el.getBoundingClientRect();
+      if (r.top < innerHeight - 40 && r.height) el.classList.add('is-visible');
+    });
+    addEventListener('scroll', check, { passive: true });
+    addEventListener('resize', check);
+    setTimeout(check, 300);
+    window.__ikRevealCheck = check;
+  }
 })();

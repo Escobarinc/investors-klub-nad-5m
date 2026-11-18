@@ -15,16 +15,16 @@ Náhled: `.claude/launch.json` → `investors-klub-nad-5m` (port 8786).
 - Bez klíče formulář funguje jako ukázka a nic neodesílá (v potvrzení je to napsané).
 - Měřicí kód se načítá až při odeslání žádosti, ne při běžné návštěvě.
 
-## Login (zatím ukázkový)
+## Login a sekce pro členy (zatím ukázkové)
 
-Vpravo nahoře je „Login“. Po přihlášení se zobrazí celé menu (O klubu, Vybrané projekty, Členství, Kontakt) a tlačítko Odhlásit.
+Vpravo nahoře je „Login“. Přihlášení zatím přijme jakékoli vyplněné údaje (statický web nemá server pro účty).
+Po přihlášení zmizí úvod a zobrazí se menu (O klubu, Vybrané projekty, Investiční profil, Kontakt) a sekce pro členy `#klub`.
 
-Statický web nemá server pro účty, takže přihlášení je zatím jen ukázka s jedním testovacím účtem:
+- `dotaznik.html` – Private Investor Profile (varianta ALVEDOR, 15 otázek na jedné stránce), odpovědi se ukládají jen v prohlížeči.
+- `profil.html` – přehled odpovědí.
+- Kontakt – formulář s preferovaným časem spojení, odesílá se jako lead do CRM (`formular: 'Kontakt'`).
 
-- e-mail: `demo@investorsklub.cz`
-- heslo: `klub5m`
-
-Skutečné přihlášení (účty schválených členů) bude potřeba napojit na server, např. na CRM.
+Skutečné účty schválených členů a uložení profilu do CRM bude potřeba napojit na server.
 
 ## Podklady
 
