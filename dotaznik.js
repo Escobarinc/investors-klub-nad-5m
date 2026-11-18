@@ -70,7 +70,7 @@
   function renderForm() {
     show(`
       <p class="q-eyebrow">Private Investor Profile</p>
-      <h1 class="q-title">Individual Access Begins With <span class="q-accent">Understanding.</span></h1>
+      <h1 class="q-title">Individuální přístup začíná <span class="q-accent">porozuměním.</span></h1>
       <p class="q-text">Významnější investiční rozhodnutí vyžadují odpovídající úroveň informací, profesionality a individuální komunikace.</p>
       <p class="q-text">Abychom vám mohli představovat relevantní investiční příležitosti v kontextu vašich osobních preferencí, potřebujeme nejprve porozumět vašim investičním cílům, časovému horizontu, zkušenostem a očekáváním.</p>
       <p class="q-text">Váš investiční profil tvoří základ našeho individuálního přístupu. Pomáhá nám zaměřit pozornost na příležitosti, jejich parametry a projektové informace, které jsou pro vás skutečně podstatné.</p>
