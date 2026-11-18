@@ -635,3 +635,8 @@ a.login-btn { text-decoration: none; }
 .f-legal { gap: 5px 19px; margin-top: 1px; }
 .f-legal a, .f-legal button { font-size: 8.8px; }
 @media (max-width: 540px) { .f-bottom, .f-legal a, .f-legal button { font-size: 8.8px; } .f-legal { gap: 5px 13px; } }
+/* Spodní lišta patičky: písmo 10 px */
+.f-bottom { gap: 6px; padding-top: 14px; padding-bottom: 18px; font-size: 10px; }
+.f-legal { gap: 6px 21px; margin-top: 2px; }
+.f-legal a, .f-legal button { font-size: 10px; }
+@media (max-width: 540px) { .f-bottom, .f-legal a, .f-legal button { font-size: 10px; } .f-legal { gap: 6px 14px; } }
