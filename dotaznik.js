@@ -90,7 +90,6 @@
     show(`
       <div class="q-done-icon">${check}</div>
       <p class="q-eyebrow">Private Investor Profile Completed</p>
-      <h1 class="q-title">Your Investor Profile Is Ready.</h1>
       <p class="q-text">Děkujeme za vyplnění. Vaše odpovědi nám pomohou lépe porozumět vašim preferencím a zaměřit následné představení investičních projektů na relevantní oblasti.</p>
       <p class="q-small">Konkrétní nabídky a jejich podmínky budou posuzovány samostatně.</p>
       <div class="q-nav">
