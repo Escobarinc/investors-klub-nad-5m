@@ -578,3 +578,18 @@ footer.site-footer { height: auto; overflow: visible; background: linear-gradien
 }
 @media (max-width: 420px) { .f-col a, .f-col button { font-size: 14px; } }
 .q-header .brand { align-self: center; }
+
+/* ---- Patička v2: všechny stránky; spodní lišta větší a světlejší ---- */
+.f-col h3 { margin: 4px 0 16px; color: var(--accent); font: 700 12px/1.2 var(--font-sans); letter-spacing: 2.2px; text-transform: uppercase; }
+.f-col ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.f-col a, .f-col button { font-family: var(--font-sans); }
+.f-bottom { flex-direction: column; align-items: flex-start; gap: 10px; padding-top: 22px; padding-bottom: 28px; font-size: 15px; color: #d6cfc6; }
+.f-legal { display: flex; flex-wrap: wrap; gap: 10px 32px; margin-top: 4px; }
+.f-legal a, .f-legal button { padding: 0; border: 0; background: none; color: #f1ebe3; font: inherit; font-size: 15px; text-decoration: none; cursor: pointer; transition: color .2s; }
+.f-legal a:hover, .f-legal button:hover { color: var(--accent); text-decoration: underline; text-underline-offset: 4px; }
+/* Titulka pro nepřihlášené: jen spodní lišta */
+body.access-locked .site-wrap .f-wrap { display: none; }
+body.access-locked .site-wrap .f-bottom { border-top: 0; }
+body.q-page footer.site-footer { margin-top: 24px; }
+@media (max-width: 540px) { .f-bottom { font-size: 14px; } .f-legal a, .f-legal button { font-size: 14px; } .f-legal { gap: 10px 20px; } }
+body.q-page { display: flex; flex-direction: column; } body.q-page > .q-main { flex: 1; } body.q-page > footer.site-footer { margin-top: 0; }

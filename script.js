@@ -302,7 +302,9 @@
   window.addEventListener('resize', () => { if (window.innerWidth > 820) closeMenu(); });
 
   try { if (localStorage.getItem(ACCESS_KEY) === '1') setLoggedIn(true, true); } catch (e) {}
-  if (location.hash === '#kontakt') setTimeout(() => openDialog('contact'), 300);
+  // Odkazy z ostatních stránek (patička, právní stránky): index.html#kontakt, #projekty, #zadost, #login
+  const HASH = { '#kontakt': 'contact', '#projekty': 'projects', '#zadost': 'membership', '#login': 'login' };
+  if (HASH[location.hash]) setTimeout(() => openDialog(HASH[location.hash]), 300);
 
   // Animace: bloky klubu se objeví při scrollování (s pojistkou při scrollu / po přihlášení)
   if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
