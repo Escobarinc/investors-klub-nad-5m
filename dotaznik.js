@@ -74,7 +74,7 @@
       <p class="q-text">Významnější investiční rozhodnutí vyžadují odpovídající úroveň informací, profesionality a individuální komunikace.</p>
       <p class="q-text">Abychom vám mohli představovat relevantní investiční příležitosti v kontextu vašich osobních preferencí, potřebujeme nejprve porozumět vašim investičním cílům, časovému horizontu, zkušenostem a očekáváním.</p>
       <p class="q-text">Váš investiční profil tvoří základ našeho individuálního přístupu. Pomáhá nám zaměřit pozornost na příležitosti, jejich parametry a projektové informace, které jsou pro vás skutečně podstatné.</p>
-      <p class="q-motto">Your Capital. Your Perspective. Our Individual Approach.</p>
+      <p class="q-motto">Váš kapitál. Váš pohled. Náš přístup.</p>
       <p class="q-small">Vyplnění probíhá jednoduše, výběrem odpovědí. Své preference můžete v budoucnu kdykoli aktualizovat.</p>
       <div class="q-progress q-sticky"><span class="q-count"></span><span class="q-bar"><span></span></span></div>
       <form class="q-form" novalidate>
