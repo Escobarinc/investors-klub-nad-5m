@@ -1,4 +1,4 @@
-/* Investors Klub nad 5M — Private Investor Profile (dotazník pro členy).
+/* Private Capital Circle — Private Investor Profile (dotazník pro členy).
    Zadání: „Investiční profily obou investorských klubů“, varianta 02 ALVEDOR (od 5 mil. Kč).
    Pravidla: jedna odpověď (01–03, 06–08, 10–11), 1–3 odpovědi (04, 05, 09), libovolně mnoho (12–15).
    Odpovědi se zatím ukládají jen v prohlížeči (napojení na CRM je samostatný krok). */

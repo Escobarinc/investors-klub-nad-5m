@@ -1,9 +1,9 @@
-/* Investors Klub nad 5M — interakce webu.
+/* Private Capital Circle — interakce webu.
  * Žádost o přístup se posílá jako lead do CRM přes crm.js (tam je i klíč webu). */
 (() => {
   'use strict';
 
-  const FORM_NAME = 'Investors Klub nad 5M – Žádost o privátní přístup';
+  const FORM_NAME = 'Private Capital Circle – Žádost o privátní přístup';
 
   /* Přihlášení je zatím jen ukázkové (statický web nemá server pro účty):
    * přijme jakékoli vyplněné údaje. Skutečné účty členů se napojí později. */
@@ -68,7 +68,7 @@
 
   const dialogs = {
     about: `
-      <h2 id="dialog-title">O Investors Klub</h2>
+      <h2 id="dialog-title">O Private Capital Circle</h2>
       <p>Privátní investiční klub od 5 mil. Kč. Projekty představujeme individuálně, s ohledem na investiční cíle a preference každého člena.</p>
       <ul class="facts"><li>Privátní investiční přístup</li><li>Individuální představení projektů</li><li>Diskrétnost a profesionalita</li></ul>`,
     projects: `
@@ -323,6 +323,27 @@
   if (location.hash === '#kontakt') location.replace('kontakt.html');
   const HASH = { '#projekty': 'projects', '#zadost': 'membership', '#login': 'login' };
   if (HASH[location.hash]) setTimeout(() => openDialog(HASH[location.hash]), 300);
+
+  // Úvod: fotky na pozadí se střídají – rozostřené prolnutí, zlatý odlesk a pomalý pohyb kamery; začíná jachta
+  (() => {
+    const slides = Array.from(document.querySelectorAll('.hero-slides .slide'));
+    const sheen = document.querySelector('.hero-sheen');
+    if (slides.length < 2 || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    let i = 0;
+    addEventListener('load', () => slides.slice(1).forEach((s) => { const img = new Image(); img.src = s.style.backgroundImage.slice(5, -2); }));
+    const restart = (el) => { el.style.animation = 'none'; void el.offsetWidth; el.style.animation = ''; };
+    setInterval(() => {
+      if (document.hidden || document.body.classList.contains('is-member')) return;
+      const prev = slides[i];
+      prev.classList.remove('is-active');
+      prev.classList.add('was-active');
+      setTimeout(() => prev.classList.remove('was-active'), 3400);
+      i = (i + 1) % slides.length;
+      restart(slides[i]);
+      slides[i].classList.add('is-active');
+      if (sheen) { sheen.classList.remove('run'); void sheen.offsetWidth; sheen.classList.add('run'); }
+    }, 8000);
+  })();
 
   // Animace: bloky klubu se objeví při scrollování (s pojistkou při scrollu / po přihlášení)
   if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {

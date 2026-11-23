@@ -1,4 +1,4 @@
-/* Investors Klub nad 5M (varianta ALVEDOR) — otázky investičního profilu (sdílené: dotazník i přehled profilu). */
+/* Private Capital Circle (varianta ALVEDOR) — otázky investičního profilu (sdílené: dotazník i přehled profilu). */
 window.IC_PROFILE = (() => {
   const blocks = [
     {

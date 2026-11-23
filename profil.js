@@ -1,4 +1,4 @@
-/* Investors Klub nad 5M — přehled investičního profilu (co člen odpověděl v dotazníku). */
+/* Private Capital Circle — přehled investičního profilu (co člen odpověděl v dotazníku). */
 (() => {
   'use strict';
 

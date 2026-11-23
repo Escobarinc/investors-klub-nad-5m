@@ -1,4 +1,4 @@
-/* Investors Klub nad 5M — stránka Kontakt: formulář se zprávou a preferovaným časem spojení → lead do CRM (formular „Kontakt“). */
+/* Private Capital Circle — stránka Kontakt: formulář se zprávou a preferovaným časem spojení → lead do CRM (formular „Kontakt“). */
 (() => {
   'use strict';
   const form = document.getElementById('contact-form');

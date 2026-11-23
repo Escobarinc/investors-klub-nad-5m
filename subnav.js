@@ -1,4 +1,4 @@
-/* Investors Klub nad 5M — hlavička na podstránkách: stav člena (menu / Login / Odhlásit) a mobilní menu. */
+/* Private Capital Circle — hlavička na podstránkách: stav člena (menu / Login / Odhlásit) a mobilní menu. */
 (() => {
   'use strict';
   const KEY = 'ik5m-access-granted';

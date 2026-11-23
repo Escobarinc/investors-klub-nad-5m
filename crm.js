@@ -1,4 +1,4 @@
-/* Investors Klub nad 5M — odesílání formulářů jako lead do CRM (CLARIX), sdílené pro celý web.
+/* Private Capital Circle — odesílání formulářů jako lead do CRM (CLARIX), sdílené pro celý web.
  * Klíč webu (site key) se získá v CRM: Nastavení → Weby a měření → Přidat web.
  * Dokud je klíč prázdný, formuláře fungují jen jako ukázka a nic se neodesílá.
  * Měřicí kód CRM se načte hned při návštěvě (návštěvy, scroll, kliky) a použije se i pro odeslání formuláře. */
