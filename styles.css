@@ -709,3 +709,6 @@ body.q-page header.site-header { height: 132px; }
 @media (prefers-reduced-motion: reduce) { .hero-slides .slide { filter: none; animation: none; transform: none; } .hero-sheen { display: none; } }
 /* Bez pohybu kamery: fotky stojí, zůstává jen rozostřené prolnutí a zlatý odlesk */
 .hero-slides .slide, .hero-slides .slide.is-active, .hero-slides .slide.was-active { animation: none !important; transform: none !important; }
+/* Logo odsazené od horního okraje o cca 0,5 cm */
+header.site-header .brand { align-self: flex-start; margin-top: 19px; }
+@media (max-width: 820px) { header.site-header .brand { margin-top: 12px; } }
