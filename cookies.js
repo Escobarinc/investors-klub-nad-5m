@@ -43,12 +43,12 @@
     ? `<table class="ck-tech"><thead><tr><th>Název</th><th>Poskytovatel</th><th>Účel</th><th>Doba platnosti</th></tr></thead><tbody>${list.map((r) => `<tr>${r.map((v) => `<td>${v}</td>`).join('')}</tr>`).join('')}</tbody></table>`
     : '<p class="ck-none">Na webu zatím nepoužíváme žádnou technologii této kategorie.</p>';
   const cat = (id, title, text) => `<div class="ck-cat"><div class="ck-cat-head">${id === 'nezbytne' ? '<span class="ck-always">Vždy aktivní</span>' : `<label class="ck-switch"><input type="checkbox" data-ck="${id}"><i aria-hidden="true"></i><span class="sr-only">Povolit: ${title}</span></label>`}<div><b>${title}</b><small>${text}</small></div></div><details class="ck-details"><summary>Seznam technologií</summary>${rows(INVENTAR[id])}</details></div>`;
-  const LINKS = '<a href="zasady-cookies.html">Zásadách používání cookies</a> a <a href="zasady-ochrany-osobnich-udaju.html">Zásadách ochrany osobních údajů</a>';
+  const LINKS = '<a href="zasady-cookies.html">Zásadách cookies</a> a <a href="zasady-ochrany-osobnich-udaju.html">Zásadách ochrany osobních údajů</a>';
 
   const bar = document.createElement('section');
   bar.className = 'ck-bar'; bar.hidden = true; bar.setAttribute('role', 'dialog'); bar.setAttribute('aria-labelledby', 'ck-title');
   bar.innerHTML = `<div class="ck-inner">
-  <div class="ck-l1"><h2 id="ck-title">Nastavení soukromí</h2><p>Na tomto webu používáme nezbytné technologie pro jeho fungování. S vaším souhlasem využíváme také analytické technologie pro měření návštěvnosti a přiřazení poptávek ke zdroji návštěvy. Podrobnosti najdete v ${LINKS}.</p></div>
+  <div class="ck-l1"><p><b id="ck-title">Nastavení soukromí.</b> Nezbytné technologie používáme pro fungování webu, analytické jen s vaším souhlasem. Více v ${LINKS}.</p></div>
   <div class="ck-l2" hidden><div class="ck-grid">${cat('nezbytne', 'Nezbytné', 'Základní funkčnost, přihlášení člena, uložení dotazníku a volby souhlasu. Bez souhlasu, jen v nezbytném rozsahu.')}${cat('analyticke', 'Analytické', 'Statistiky návštěvnosti, používání stránek a zdroj poptávek. Pouze se souhlasem.')}${cat('marketingove', 'Marketingové', 'Měření účinnosti reklam a přiřazení konverzí. Pouze se souhlasem.')}</div><p class="ck-docs">Podrobnosti v ${LINKS}.</p></div>
   <div class="ck-actions"><button type="button" class="ck-btn" data-ck-act="none">Odmítnout vše</button><button type="button" class="ck-btn" data-ck-act="settings">Nastavení</button><button type="button" class="ck-btn" data-ck-act="save" hidden>Uložit nastavení</button><button type="button" class="ck-btn ck-btn-gold" data-ck-act="all">Přijmout vše</button></div>
   <button type="button" class="ck-handle" aria-label="Skrýt nastavení soukromí" hidden></button></div>`;
