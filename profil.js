@@ -37,7 +37,7 @@
       <p class="q-eyebrow">Můj investiční profil</p>
       <h1 class="q-title">Profil zatím není vyplněný.</h1>
       <p class="q-text">Vyplňte krátký investiční dotazník. Pomůže nám představovat vám projekty, které odpovídají vašim cílům a preferencím.</p>
-      <div class="q-nav"><a class="cta q-next" href="dotaznik.html">Vyplnit investiční dotazník ${arrow}</a></div>`);
+      <div class="q-nav"><a class="cta q-next" href="dotaznik.html">Vyplnit investiční profil ${arrow}</a></div>`);
     return;
   }
 
